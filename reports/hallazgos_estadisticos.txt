@@ -1,0 +1,30 @@
+REPORTE DE ESTADÍSTICAS - BRECHA EDUCATIVA RM
+===============================================
+
+1. TOP 10 COMUNAS CON MAYOR VARIANZA INTERNA (DESIGUALDAD):
+NOM_COM_RBD     media  desviacion
+      PAINE 16.290263    8.514773
+PROVIDENCIA 14.286644    7.458446
+  QUILICURA 18.124346    6.677873
+   CURACAVÍ 14.554081    6.273369
+     COLINA 16.549929    6.100308
+  MELIPILLA 14.136363    5.824664
+   SANTIAGO 14.541502    5.721912
+  SAN RAMÓN 12.969398    5.634135
+       BUIN 15.307069    5.573681
+     TILTIL 11.313296    5.514524
+
+Insight: En estas comunas, el promedio es engañoso porque conviven colegios hacinados con otros vacíos.
+
+2. ESTADÍSTICAS POR TIPO DE DEPENDENCIA:
+                           count       mean       std       min        25%        50%        75%        max
+categoria_dependencia                                                                                      
+Admin. Delegada             33.0  17.375978  5.291202  7.387755  13.240000  17.107143  21.586957  28.687500
+Municipal (Corporación)    360.0  11.838941  3.553640  3.263158  10.028846  11.500000  13.636696  27.447368
+Municipal (DAEM)           271.0  10.766544  3.071959  1.166667   8.572917  10.913043  12.530360  20.120000
+Particular Pagado          298.0  12.005048  5.303582  0.271186   8.688084  11.505000  14.981481  45.200000
+Particular Subvencionado  1825.0  15.875770  5.410410  0.100000  12.464286  15.741935  19.333333  59.000000
+SLEP (Público)              87.0  11.093765  3.133734  4.363636   9.677083  10.846154  12.726087  24.266667
+
+3. ANÁLISIS DE PRECIOS COMPLETADO.
+Revisar gráfico 'figures/03_impacto_precio.png' para ver el punto de quiebre.
