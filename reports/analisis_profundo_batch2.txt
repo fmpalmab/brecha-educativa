@@ -27,14 +27,14 @@ SALA CUNA Y JARDIN INFANTIL LITLE BANY PRESCHOOL      PROVIDENCIA     PARTICULAR
             COLEGIO PART. ADULTOS INSTITUTO ICEL         SANTIAGO       PARTICULAR_SUBV             30.644444           41.787879
            COLEGIO POLIVALENTE PRINCIPE DE GALES ESTACION CENTRAL       PARTICULAR_SUBV             30.076923           41.892857
                 ESCUELA  ESPECIAL  N°196 AURINKO     SAN BERNARDO       PARTICULAR_SUBV             30.000000           15.000000
-     ESC.ESP.DE  LENGUAJE  MIS  PEQUENOS TESOROS            MAIPU       PARTICULAR_SUBV             30.000000           15.000000
+     ESC.ESP.DE  LENGUAJE  MIS  PEQUEÑOS TESOROS            MAIPU       PARTICULAR_SUBV             30.000000           15.000000
                  ESC. PARV. UN RINCON DE ALEGRIA            RENCA       PARTICULAR_SUBV             30.000000           30.000000
-                 ESCUELA BASICA N 149 SAN MARCEL             BUIN       PARTICULAR_SUBV             29.593750           33.821429
+                 ESCUELA BÁSICA N 149 SAN MARCEL             BUIN       PARTICULAR_SUBV             29.593750           33.821429
        ESCUELA ESP. MI MUNDO EN PALABRAS DE BUIN             BUIN       PARTICULAR_SUBV             29.545455           19.117647
 
 3. TOP 20 COLEGIOS CON MEJOR PERSONIFICACIÓN (>50 alumnos):
                                             NOM_RBD  NOM_COM_RBD categoria_dependencia  ratio_alumno_docente  ratio_alumno_curso
-                     LYCEE ANTOINE DE SAINT-EXUPERY     VITACURA     PARTICULAR_PAGADO              0.779661            5.750000
+                     LYCÉE ANTOINE DE SAINT-EXUPÉRY     VITACURA     PARTICULAR_PAGADO              0.779661            5.750000
 ESCUELA BASICA N° 1986 SAINT PAUL MONTESSORI SCHOOL   LAS CONDES     PARTICULAR_PAGADO              2.297297            6.538462
                   ESCUELA ESPECIAL SANTIAGO APOSTOL     SANTIAGO        MUNICIPAL_DAEM              2.454545            5.062500
                                     COLEGIO ALICURA    PENALOLEN        MUNICIPAL_CORP              3.263158            8.857143
