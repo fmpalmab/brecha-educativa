@@ -10,6 +10,5 @@ venv/
 .env
 
 # Si generas datos temporales muy pesados o imágenes de prueba
-*.png
 *.html
 # data/raw/  <-- Descomenta esto SI algún día subes un archivo > 50MB
