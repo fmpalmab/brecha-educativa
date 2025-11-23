@@ -1,0 +1,15 @@
+# Archivos de sistema y Jupyter
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+
+# Entornos virtuales (si usas venv o conda en la carpeta del proyecto)
+env/
+venv/
+.env
+
+# Si generas datos temporales muy pesados o imágenes de prueba
+*.png
+*.html
+# data/raw/  <-- Descomenta esto SI algún día subes un archivo > 50MB
