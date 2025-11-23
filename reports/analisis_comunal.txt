@@ -1,0 +1,27 @@
+ANÁLISIS A NIVEL COMUNAL - HALLAZGOS CLAVE
+==========================================
+
+1. COMUNAS CON MAYOR DESIGUALDAD INTERNA (Std Dev):
+NOM_COM_RBD  ratio_docente_media  ratio_docente_std
+      PAINE            16.290263           8.514773
+PROVIDENCIA            14.286644           7.458446
+  QUILICURA            18.124346           6.677873
+   CURACAVI            14.554081           6.273369
+     COLINA            16.549929           6.100308
+
+2. COMUNAS CON MAYOR HACINAMIENTO (Alumnos/Curso):
+  NOM_COM_RBD  ratio_curso_media
+    SAN PEDRO          41.553889
+INDEPENDENCIA          30.114219
+    QUILICURA          28.498373
+     SANTIAGO          28.490314
+  MARIA PINTO          28.475689
+
+3. CORRELACIONES DESTACADAS:
+                     ratio_docente_media  ratio_docente_std  ratio_curso_media  matricula_total  pct_municipal  pct_pagado
+ratio_docente_media             1.000000           0.572315           0.147229         0.312137       0.086376         NaN
+ratio_docente_std               0.572315           1.000000          -0.062004         0.268361       0.125657         NaN
+ratio_curso_media               0.147229          -0.062004           1.000000        -0.031407      -0.067669         NaN
+matricula_total                 0.312137           0.268361          -0.031407         1.000000      -0.128014         NaN
+pct_municipal                   0.086376           0.125657          -0.067669        -0.128014       1.000000         NaN
+pct_pagado                           NaN                NaN                NaN              NaN            NaN         NaN

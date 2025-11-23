@@ -1,0 +1,63 @@
+REPORTE DE DEEP DIVE (BATCH 2)
+================================
+
+1. COMPARACIÓN URBANO VS RURAL:
+           ratio_alumno_docente  ratio_alumno_curso
+RURAL_RBD                                          
+0                     14.504784           24.505065
+1                     10.841218           28.288382
+
+(Nota: 0 = Urbano, 1 = Rural)
+
+2. TOP 20 COLEGIOS CON MAYOR CARGA POR DOCENTE (CRÍTICO):
+                                         NOM_RBD      NOM_COM_RBD categoria_dependencia  ratio_alumno_docente  ratio_alumno_curso
+                            ESCUELA PART. NAHUEL            PAINE       PARTICULAR_SUBV             59.000000           32.028571
+      COLEGIO DE ADULTOS CASA DE ESTUDIOS FUTURO      PROVIDENCIA     PARTICULAR_PAGADO             45.200000           28.250000
+                    COLEGIO  INSTITUTO MANQUEHUE        MELIPILLA       PARTICULAR_SUBV             36.000000           32.000000
+                                 COLEGIO INFOCAP      SAN JOAQUIN       PARTICULAR_SUBV             33.428571           36.000000
+        ESCUELA ESPECIAL N°2395 MI FAMILIA EDUCA        QUILICURA       PARTICULAR_SUBV             33.333333           12.500000
+       ESCUELA BASICA RAYITO DE LUZ DE QUILICURA        QUILICURA       PARTICULAR_SUBV             33.222222           33.222222
+SALA CUNA Y JARDIN INFANTIL LITLE BANY PRESCHOOL      PROVIDENCIA     PARTICULAR_PAGADO             33.000000           16.500000
+                                COLEGIO LE MONDE       LA FLORIDA       PARTICULAR_SUBV             31.687500           40.560000
+            ESCUELA ESP. SAN CARLOS DE MELIPILLA        MELIPILLA       PARTICULAR_SUBV             31.666667           19.000000
+                                 COLEGIO MARQUEL    QUINTA NORMAL       PARTICULAR_SUBV             31.565217           40.333333
+         ESCUELA PART. SANTA TERESA DE QUILICURA        QUILICURA       PARTICULAR_SUBV             31.111111           41.176471
+                        ESCUELA DE PARV. PIN PON ESTACION CENTRAL       PARTICULAR_SUBV             31.000000           15.500000
+                 ESCUELA PARTICULAR RAMON FREIRE         RECOLETA       PARTICULAR_SUBV             30.850000           30.850000
+            COLEGIO PART. ADULTOS INSTITUTO ICEL         SANTIAGO       PARTICULAR_SUBV             30.644444           41.787879
+           COLEGIO POLIVALENTE PRINCIPE DE GALES ESTACION CENTRAL       PARTICULAR_SUBV             30.076923           41.892857
+                ESCUELA  ESPECIAL  N°196 AURINKO     SAN BERNARDO       PARTICULAR_SUBV             30.000000           15.000000
+     ESC.ESP.DE  LENGUAJE  MIS  PEQUENOS TESOROS            MAIPU       PARTICULAR_SUBV             30.000000           15.000000
+                 ESC. PARV. UN RINCON DE ALEGRIA            RENCA       PARTICULAR_SUBV             30.000000           30.000000
+                 ESCUELA BASICA N 149 SAN MARCEL             BUIN       PARTICULAR_SUBV             29.593750           33.821429
+       ESCUELA ESP. MI MUNDO EN PALABRAS DE BUIN             BUIN       PARTICULAR_SUBV             29.545455           19.117647
+
+3. TOP 20 COLEGIOS CON MEJOR PERSONIFICACIÓN (>50 alumnos):
+                                            NOM_RBD  NOM_COM_RBD categoria_dependencia  ratio_alumno_docente  ratio_alumno_curso
+                     LYCEE ANTOINE DE SAINT-EXUPERY     VITACURA     PARTICULAR_PAGADO              0.779661            5.750000
+ESCUELA BASICA N° 1986 SAINT PAUL MONTESSORI SCHOOL   LAS CONDES     PARTICULAR_PAGADO              2.297297            6.538462
+                  ESCUELA ESPECIAL SANTIAGO APOSTOL     SANTIAGO        MUNICIPAL_DAEM              2.454545            5.062500
+                                    COLEGIO ALICURA    PENALOLEN        MUNICIPAL_CORP              3.263158            8.857143
+            ESCUELA BASICA N°2459, FRANCISCO VARELA    PENALOLEN     PARTICULAR_PAGADO              3.304348           14.476190
+                      COLEGIO KENDAL ENGLISH SCHOOL        NUNOA     PARTICULAR_PAGADO              3.750000           20.000000
+            ESCUELA DE ED.DIFERENCIAL HELLEN KELLER        NUNOA        MUNICIPAL_CORP              3.863636            6.538462
+                           COLEGIO ANTUQUENU ANDINO   LA FLORIDA     PARTICULAR_PAGADO              3.878788           11.636364
+                     COLEGIO SAN LUIS DE LAS CONDES   LAS CONDES     PARTICULAR_PAGADO              3.937500           12.600000
+       ESC. CENTRO DE CAPACITACION LABORAL SANTIAGO     SANTIAGO        MUNICIPAL_DAEM              3.944444           10.142857
+      COLEGIO ESPECIAL HOSPITALARIO CON TODO EL COR  PROVIDENCIA       PARTICULAR_SUBV              4.066667            4.357143
+                           ESC. PART. CHRIST SCHOOL        MAIPU       PARTICULAR_SUBV              4.166667            8.333333
+                    ESC.PARA SORDOS DR. OTTE GABLER  SAN JOAQUIN       PARTICULAR_SUBV              4.200000            6.176471
+                ESCUELA HOGAR DE CIEGOS SANTA LUCIA  LA CISTERNA       PARTICULAR_SUBV              4.230769            5.000000
+                            COLEGIO BERTAIT COLLEGE LO BARNECHEA     PARTICULAR_PAGADO              4.277778            6.416667
+                      COLEGIO SAN JUAN DE KRONSTADT LO BARNECHEA       PARTICULAR_SUBV              4.375000           10.000000
+                          COLEGIO MAIMONIDES SCHOOL LO BARNECHEA     PARTICULAR_PAGADO              4.388060           13.363636
+                                      COLEGIO EMAUS   LAS CONDES     PARTICULAR_PAGADO              4.461538            9.666667
+            ESCUELA BASICA N° 2150, COLEGIO MOUNIER   LAS CONDES     PARTICULAR_PAGADO              4.466667            7.444444
+                                 COLEGIO LOS OLIVOS       PIRQUE     PARTICULAR_PAGADO              4.538462           13.111111
+
+4. MATRIZ DE CORRELACIÓN:
+                      ratio_alumno_docente  ratio_alumno_curso  MAT_TOTAL  orden_precio
+ratio_alumno_docente              1.000000            0.436779   0.387139      0.044981
+ratio_alumno_curso                0.436779            1.000000   0.632441      0.115879
+MAT_TOTAL                         0.387139            0.632441   1.000000      0.296656
+orden_precio                      0.044981            0.115879   0.296656      1.000000
