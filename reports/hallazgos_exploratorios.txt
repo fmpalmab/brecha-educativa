@@ -1,0 +1,30 @@
+REPORTE CONSOLIDADO DE HALLAZGOS - BRECHA EDUCATIVA RM
+======================================================
+
+1. TOP 10 COMUNAS CON MAYOR DESIGUALDAD INTERNA (Std Dev Ratio Alumno/Docente):
+                   mean       std  count
+NOM_COM_RBD                             
+PROVIDENCIA   14.286644  7.458446     44
+QUILICURA     18.124346  6.677873     58
+PENAFLOR      15.067192  5.965903     12
+SANTIAGO      14.541502  5.721912    128
+SAN RAMON     12.969398  5.634135     38
+MACUL         13.448220  5.448210     39
+SAN JOAQUIN   13.353600  5.442419     40
+PUDAHUEL      15.755156  5.427787     64
+SAN BERNARDO  15.140247  5.377652    129
+LO PRADO      15.965572  5.362599     30
+
+2. COMPARATIVA GRATUITO VS PAGADO:
+          ratio_alumno_docente                                                                            ratio_alumno_curso                                                                       
+                         count       mean       std       min        25%        50%        75%        max              count       mean        std       min        25%   50%        75%        max
+TIPO_PAGO                                                                                                                                                                                          
+Gratuito                1790.0  14.062271  5.027507  0.100000  10.669811  13.460565  17.284053  33.428571             1786.0  24.268015  10.920441  1.000000  13.428571  25.9  33.330645  49.375000
+Pagado                   575.0  15.137061  5.925701  0.779661  10.804924  15.000000  18.845000  45.200000              571.0  25.315534  10.491033  1.444444  16.571429  26.8  33.182141  44.694444
+
+3. MATRIZ DE CORRELACIÓN GENERAL:
+                      ratio_alumno_docente  ratio_alumno_curso  MAT_TOTAL  orden_precio
+ratio_alumno_docente              1.000000            0.471513   0.401022      0.055118
+ratio_alumno_curso                0.471513            1.000000   0.663578      0.130085
+MAT_TOTAL                         0.401022            0.663578   1.000000      0.312623
+orden_precio                      0.055118            0.130085   0.312623      1.000000
