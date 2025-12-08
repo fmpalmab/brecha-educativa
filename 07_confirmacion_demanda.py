@@ -5,129 +5,120 @@ import numpy as np
 import os
 from scipy import stats
 
-# --- CONFIGURACIÓN GLOBAL ---
+# --- CONFIGURACIÓN ---
 OUTPUT_DIR = 'figures/finales'
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 sns.set_style("whitegrid")
 
-# Colores Corporativos
-COLOR_FREE = '#2ca02c'  # Verde
-COLOR_PAID = '#d62728'  # Rojo
-
-def get_r(df, col_x, col_y):
-    """Calcula correlación de Pearson."""
-    clean = df[[col_x, col_y]].dropna()
-    if len(clean) > 2:
-        r, p = stats.pearsonr(clean[col_x], clean[col_y])
-        return r
-    return 0.0
+# Colores: Usaremos variaciones de Rojo para mostrar intensidad
+COLOR_LOW_SUPPLY = '#a50f15'  # Rojo Oscuro (Escasez = Alta Presión)
+COLOR_HIGH_SUPPLY = '#fb6a4a' # Rojo Claro (Abundancia = Menor Presión)
 
 def main():
-    print(">>> GENERANDO BLOQUE 7: CONFIRMACIÓN DE DEMANDA (SATURACIÓN) <<<")
+    print(">>> GENERANDO ANÁLISIS DE DEMANDA AGREGADA (<45% VS >45%) <<<")
     
     # 1. Cargar Datos
     try:
         df = pd.read_csv('data/processed/base_consolidada_rm_2024_final.csv')
-        print(f"Datos cargados: {len(df)} registros.")
     except FileNotFoundError:
-        print("❌ Error: Falta el archivo de datos. Ejecuta Bloque 1.")
+        print("❌ Falta archivo de datos.")
         return
 
-    # Clasificación Binaria
+    # Clasificación
     df['TIPO_PAGO'] = df['PAGO_MENSUAL'].apply(
         lambda x: 'Gratuito' if str(x).strip().upper() == 'GRATUITO' or 'MUNICIPAL' in str(x).upper() else 'Pagado'
     )
 
-    # -------------------------------------------------------------------------
-    # CÁLCULO DE INDICADORES DE PRESIÓN DE DEMANDA
-    # -------------------------------------------------------------------------
-    print("Calculando indicadores de presión por comuna...")
+    # 2. Clasificar Comunas por Nivel de Oferta Privada
+    print("Clasificando comunas (Baja vs Alta Oferta Privada)...")
     
-    comuna_stats = df.groupby('NOM_COM_RBD').apply(lambda x: pd.Series({
-        'N_Colegios': len(x),
-        'N_Pagados': (x['TIPO_PAGO'] == 'Pagado').sum(),
-        'Matricula_Total': x['MAT_TOTAL'].sum(),
-        'Matricula_Pagada': x.loc[x['TIPO_PAGO'] == 'Pagado', 'MAT_TOTAL'].sum(),
-        # Saturación: Alumnos por Curso Promedio
-        'Saturacion_Pagada': x.loc[x['TIPO_PAGO'] == 'Pagado', 'ratio_alumno_curso'].mean(),
-        'Saturacion_Gratuita': x.loc[x['TIPO_PAGO'] == 'Gratuito', 'ratio_alumno_curso'].mean()
-    })).dropna()
+    comuna_oferta = df.groupby('NOM_COM_RBD').apply(lambda x: pd.Series({
+        'Pct_Privada': (x['TIPO_PAGO'] == 'Pagado').sum() / len(x),
+        'Total_Colegios': len(x)
+    }))
     
-    # Cálculo de Gap de Sobrerrepresentación (Demanda vs Oferta)
-    comuna_stats['Pct_Oferta'] = comuna_stats['N_Pagados'] / comuna_stats['N_Colegios']
-    comuna_stats['Pct_Demanda'] = comuna_stats['Matricula_Pagada'] / comuna_stats['Matricula_Total']
-    comuna_stats['Presion_Demanda'] = comuna_stats['Pct_Demanda'] - comuna_stats['Pct_Oferta']
+    # Filtro de robustez: ignorar comunas con muy pocos colegios (<5)
+    comuna_oferta = comuna_oferta[comuna_oferta['Total_Colegios'] > 5]
     
-    # Filtrar Top 15 comunas con mayor "Presión" (Donde la gente busca más pagado de lo que hay)
-    top_presion = comuna_stats.sort_values('Presion_Demanda', ascending=False).head(15)
+    def clasificar_entorno(pct):
+        if pct < 0.45:
+            return 'Zonas de Escasez (<45% Oferta Privada)'
+        else:
+            return 'Zonas de Abundancia (>45% Oferta Privada)'
+            
+    comuna_oferta['Tipo_Entorno'] = comuna_oferta['Pct_Privada'].apply(clasificar_entorno)
+    
+    # Merge para etiquetar cada colegio con el tipo de su comuna
+    df = df.merge(comuna_oferta[['Tipo_Entorno']], left_on='NOM_COM_RBD', right_index=True, how='inner')
+
+    # 3. Filtrar: Solo nos interesan los COLEGIOS PAGADOS
+    # Queremos ver cómo "viven" los colegios pagados en estos dos mundos
+    df_pagados = df[df['TIPO_PAGO'] == 'Pagado'].copy()
+    
+    print(f"Analizando {len(df_pagados)} colegios pagados...")
 
     # -------------------------------------------------------------------------
-    # GRÁFICO 1: BARRAS DE SATURACIÓN (LA EVIDENCIA DE PREFERENCIA)
+    # GRÁFICO 1: SATURACIÓN DE AULAS (Raincloud Plot)
     # -------------------------------------------------------------------------
-    print("Generando Gráfico 1: Saturación Comparada...")
+    plt.figure(figsize=(12, 8))
     
-    # Preparar datos para seaborn (formato largo)
-    plot_data = top_presion[['Saturacion_Gratuita', 'Saturacion_Pagada']].reset_index()
-    plot_data = plot_data.melt(id_vars='NOM_COM_RBD', var_name='Tipo', value_name='Alumnos_Curso')
-    plot_data['Tipo'] = plot_data['Tipo'].map({'Saturacion_Gratuita': 'Gratuito', 'Saturacion_Pagada': 'Pagado'})
-    
-    plt.figure(figsize=(14, 8))
-    sns.barplot(
-        data=plot_data, x='NOM_COM_RBD', y='Alumnos_Curso', hue='Tipo',
-        palette={'Gratuito': COLOR_FREE, 'Pagado': COLOR_PAID}
+    # Violin + Strip + Box
+    ax = sns.violinplot(
+        x='Tipo_Entorno', y='ratio_alumno_curso', data=df_pagados,
+        palette={'Zonas de Escasez (<45% Oferta Privada)': COLOR_LOW_SUPPLY, 'Zonas de Abundancia (>45% Oferta Privada)': COLOR_HIGH_SUPPLY},
+        inner=None, alpha=0.3
+    )
+    sns.stripplot(
+        x='Tipo_Entorno', y='ratio_alumno_curso', data=df_pagados,
+        color='black', alpha=0.3, size=2, jitter=0.25
+    )
+    sns.boxplot(
+        x='Tipo_Entorno', y='ratio_alumno_curso', data=df_pagados,
+        width=0.2, boxprops={'facecolor':'none', 'zorder':10}, showfliers=False
     )
     
-    # Línea de referencia crítica
-    plt.axhline(y=35, color='gray', linestyle='--', linewidth=1.5, label='Umbral de Saturación (35 alumnos)')
+    # Calcular medias para anotar
+    medias = df_pagados.groupby('Tipo_Entorno')['ratio_alumno_curso'].mean()
+    diff = medias['Zonas de Escasez (<45% Oferta Privada)'] - medias['Zonas de Abundancia (>45% Oferta Privada)']
     
-    plt.title('Prueba de Demanda: Hacinamiento en Colegios Pagados\n(En las 15 comunas con mayor déficit de oferta privada)', fontsize=16)
-    plt.ylabel('Promedio de Alumnos por Curso (Aula)')
+    plt.axhline(35, color='gray', linestyle='--', label='Umbral Saturación (35)')
+    plt.title(f'Efecto de la Escasez: Hacinamiento en el Aula\n(Diferencia: +{diff:.1f} alumnos/curso en zonas de escasez)', fontsize=15)
+    plt.ylabel('Alumnos por Curso (Promedio)')
     plt.xlabel('')
-    plt.xticks(rotation=45, ha='right')
-    plt.legend(title='Dependencia')
+    plt.legend(loc='lower right')
+    
     plt.tight_layout()
-    plt.savefig(f'{OUTPUT_DIR}/17_confirmacion_demanda_saturacion.png', dpi=300)
+    plt.savefig(f'{OUTPUT_DIR}/17_comparacion_agregada_saturacion.png', dpi=300)
     plt.close()
 
     # -------------------------------------------------------------------------
-    # GRÁFICO 2: SCATTER (ESCASEZ VS LLENADO)
+    # GRÁFICO 2: TAMAÑO DEL COLEGIO (Masividad)
     # -------------------------------------------------------------------------
-    print("Generando Gráfico 2: Correlación Escasez-Llenado...")
+    plt.figure(figsize=(12, 8))
     
-    # Filtramos comunas que tengan al menos oferta pagada incipiente para ver la tendencia
-    scatter_data = comuna_stats[comuna_stats['N_Pagados'] > 0]
-    
-    # Correlación entre % Oferta (X) y Saturación Pagada (Y)
-    # Esperamos R negativo: A menor % oferta, mayor saturación.
-    r_val = get_r(scatter_data, 'Pct_Oferta', 'Saturacion_Pagada')
-    
-    plt.figure(figsize=(10, 8))
-    sns.regplot(
-        data=scatter_data, x='Pct_Oferta', y='Saturacion_Pagada',
-        scatter_kws={'s': scatter_data['N_Pagados']*3, 'alpha': 0.6, 'color': COLOR_PAID, 'edgecolor':'k'},
-        line_kws={'color': 'black', 'linestyle': '--', 'label': f'Tendencia Lineal (R={r_val:.2f})'}
+    sns.boxplot(
+        x='Tipo_Entorno', y='MAT_TOTAL', data=df_pagados,
+        palette={'Zonas de Escasez (<45% Oferta Privada)': COLOR_LOW_SUPPLY, 'Zonas de Abundancia (>45% Oferta Privada)': COLOR_HIGH_SUPPLY},
+        showfliers=False # Ocultar outliers extremos visualmente
     )
     
-    # Etiquetas para comunas críticas (Poca oferta, Muy llenos)
-    for idx, row in scatter_data.iterrows():
-        # Etiquetar cuadrante superior izquierdo (Escasez + Lleno)
-        if row['Pct_Oferta'] < 0.4 and row['Saturacion_Pagada'] > 32:
-            plt.text(row['Pct_Oferta']+0.01, row['Saturacion_Pagada'], idx, fontsize=9, weight='bold')
-        # Etiquetar extremos de oferta (sector oriente)
-        elif row['Pct_Oferta'] > 0.8:
-            plt.text(row['Pct_Oferta']-0.05, row['Saturacion_Pagada'], idx, fontsize=8, alpha=0.7)
+    # Medias
+    medias_mat = df_pagados.groupby('Tipo_Entorno')['MAT_TOTAL'].mean()
+    
+    plt.title('La Respuesta del Mercado: Masividad Escolar', fontsize=16)
+    plt.ylabel('Matrícula Total del Colegio')
+    plt.xlabel('')
+    
+    # Anotación de Insight
+    txt = f"En zonas de escasez, los colegios pagados son\nmasivos (Promedio: {medias_mat['Zonas de Escasez (<45% Oferta Privada)']:.0f} alumnos)\nvs zonas de abundancia ({medias_mat['Zonas de Abundancia (>45% Oferta Privada)']:.0f} alumnos)"
+    plt.figtext(0.5, 0.02, txt, ha="center", fontsize=11, bbox={"facecolor":"orange", "alpha":0.1, "pad":5})
 
-    plt.title('La Escasez genera Saturación: Oferta Disponible vs Tamaño de Curso', fontsize=16)
-    plt.xlabel('Porcentaje de Colegios Pagados en la Comuna (Oferta)')
-    plt.ylabel('Alumnos por Curso en Colegios Pagados (Intensidad de Demanda)')
-    plt.axhline(y=35, color='red', linestyle=':', alpha=0.5, label='Zona Saturada')
-    plt.legend()
-    plt.grid(True, linestyle='--', alpha=0.5)
     plt.tight_layout()
-    plt.savefig(f'{OUTPUT_DIR}/18_scatter_escasez_vs_llenado.png', dpi=300)
+    plt.subplots_adjust(bottom=0.15)
+    plt.savefig(f'{OUTPUT_DIR}/18_comparacion_agregada_tamano.png', dpi=300)
     plt.close()
     
-    print(f"✅ Gráficos de confirmación generados en: {OUTPUT_DIR}")
+    print(f"✅ Análisis agregado completado. Gráficos en {OUTPUT_DIR}")
 
 if __name__ == "__main__":
     main()
