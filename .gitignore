@@ -1,14 +1,24 @@
-# Archivos de sistema y Jupyter
+# System and Jupyter
 .DS_Store
 .ipynb_checkpoints/
 __pycache__/
 *.py[cod]
+*$py.class
 
-# Entornos virtuales (si usas venv o conda en la carpeta del proyecto)
-env/
+# Virtual environments
+.venv/
 venv/
+env/
 .env
 
-# Si generas datos temporales muy pesados o imágenes de prueba
+# Distribution and tests
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Temporary files
 *.html
-# data/raw/  <-- Descomenta esto SI algún día subes un archivo > 50MB
+Thumbs.db

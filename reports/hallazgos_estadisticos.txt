@@ -1,30 +1,43 @@
-REPORTE DE ESTADÍSTICAS - BRECHA EDUCATIVA RM
-===============================================
+======================================================================
+REPORTE DE HALLAZGOS Y SEGREGACIÓN EDUCATIVA (SANTIAGO RM 2024)
+Total Establecimientos Analizados: 2365
+Total Matrícula Estudiantil:       1,134,318
+Índice de Disimilitud de Duncan:    0.361 (Segregación Alta > 0.40)
+======================================================================
 
-1. TOP 10 COMUNAS CON MAYOR VARIANZA INTERNA (DESIGUALDAD):
-NOM_COM_RBD     media  desviacion
-      PAINE 16.290263    8.514773
-PROVIDENCIA 14.286644    7.458446
-  QUILICURA 18.124346    6.677873
-   CURACAVI 14.554081    6.273369
-     COLINA 16.549929    6.100308
-  MELIPILLA 14.136363    5.824664
-   SANTIAGO 14.541502    5.721912
-  SAN RAMON 12.969398    5.634135
-       BUIN 15.307069    5.573681
-     TILTIL 11.313296    5.514524
+1. COMPARATIVA SEGÚN TIPO DE PAGO (GRATUITO VS PAGADO)
+           Colegios  Matricula_Promedio  Alumnos_por_Docente    SIMCE_4B    SIMCE_2M
+TIPO_PAGO                                                                           
+Gratuito       1790          420.991620            14.062271  262.095960  245.553644
+Pagado          575          662.161739            15.137061  284.996479  281.573418
 
-Insight: En estas comunas, el promedio es engañoso porque conviven colegios hacinados con otros vacíos.
+--------------------------------------------------
 
-2. ESTADÍSTICAS POR TIPO DE DEPENDENCIA:
-                        count       mean       std       min        25%        50%        75%        max
-categoria_dependencia                                                                                   
-ADMIN_DELEGADA           33.0  17.375978  5.291202  7.387755  13.240000  17.107143  21.586957  28.687500
-MUNICIPAL_CORP          360.0  11.838941  3.553640  3.263158  10.028846  11.500000  13.636696  27.447368
-MUNICIPAL_DAEM          271.0  10.766544  3.071959  1.166667   8.572917  10.913043  12.530360  20.120000
-PARTICULAR_PAGADO       298.0  12.005048  5.303582  0.271186   8.688084  11.505000  14.981481  45.200000
-PARTICULAR_SUBV        1825.0  15.875770  5.410410  0.100000  12.464286  15.741935  19.333333  59.000000
-SLEP                     87.0  11.093765  3.133734  4.363636   9.677083  10.846154  12.726087  24.266667
+2. TOP 10 COMUNAS CON MAYOR PROPORCIÓN DE MATRÍCULA PAGADA
+    NOM_COM_RBD  total_colegios  matricula_total  pct_pagados  simce_4b_prom
+       VITACURA              19            18491    94.736842     306.944444
+     LAS CONDES              58            41892    77.586207     296.223404
+    PROVIDENCIA              44            29922    63.636364     300.115385
+       LA REINA              43            22592    62.790698     287.218750
+   LO BARNECHEA              29            19706    62.068966     291.840909
+CALERA DE TANGO              13             5406    46.153846     276.277778
+          NUNOA              74            37638    43.243243     283.159091
+     SAN MIGUEL              64            26145    31.250000     280.140625
+          MAIPU             194            92065    30.927835     265.530303
+          MACUL              39            15708    30.769231     276.229167
 
-3. ANÁLISIS DE PRECIOS COMPLETADO.
-Revisar gráfico 'figures/03_impacto_precio.png' para ver el punto de quiebre.
+--------------------------------------------------
+
+3. TOP 10 COMUNAS CON MENOR DESEMPEÑO SIMCE 4° BÁSICO
+        NOM_COM_RBD  total_colegios  simce_4b_prom  ratio_docente_prom
+           PENAFLOR              12     251.916667           15.067192
+          LO ESPEJO              36     252.800000           11.535647
+         LA PINTANA              69     253.255556           13.470521
+          CERRILLOS              32     256.975000           14.455476
+        SAN JOAQUIN              40     257.763158           13.353600
+        CERRO NAVIA              48     258.575758           13.754528
+           RECOLETA              68     258.868421           14.348306
+PEDRO AGUIRRE CERDA              49     259.343750           13.026321
+             PIRQUE               4     260.875000           10.919982
+       SAN BERNARDO             129     261.960000           15.140247
+

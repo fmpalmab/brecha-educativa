@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "brecha-educativa"
+version = "2.0.0"
+description = "Pipeline econométrico y espacial para el análisis de segregación y brecha educativa en Santiago de Chile."
+readme = "README.md"
+authors = [
+    { name = "Fernando Palma", email = "fernando.palma.b@ug.uchile.cl" }
+]
+license = { text = "MIT" }
+requires-python = ">=3.9"
+dependencies = [
+    "pandas>=2.0.0",
+    "numpy>=1.22.0",
+    "scipy>=1.9.0",
+    "matplotlib>=3.5.0",
+    "seaborn>=0.12.0",
+    "geopandas>=0.12.0",
+    "shapely>=2.0.0",
+    "requests>=2.28.0",
+    "tqdm>=4.65.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+]
+
+[project.scripts]
+brecha-educativa = "brecha_educativa.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["brecha_educativa*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+pythonpath = ["."]
+addopts = "-v"
