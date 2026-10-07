@@ -102,16 +102,19 @@ pip install -e ".[dev]"
 # 1. Ejecutar pipeline completo (procesar, analizar, graficar y reportar)
 python -m brecha_educativa --pipeline
 
-# 2. Generar exclusivamente el mapa espacial de colegios gratuitos vs pagados
+# 2. Análisis longitudinal comparativo multianual (Evolución de brecha, Duncan e impacto temporal)
+python -m brecha_educativa --longitudinal --years 2022,2023,2024,2025
+
+# 3. Generar exclusivamente el mapa espacial de colegios gratuitos vs pagados
 python -m brecha_educativa --map
 
-# 3. Procesar y consolidar archivos crudos de MINEDUC y SIMCE
+# 4. Procesar y consolidar archivos crudos de MINEDUC y SIMCE
 python -m brecha_educativa --process
 
-# 4. Imprimir reporte ejecutivo de hallazgos estadísticos
+# 5. Imprimir reporte ejecutivo de hallazgos estadísticos
 python -m brecha_educativa --report
 
-# 5. Generar dataset sintético para pruebas locales o CI sin archivos crudos
+# 6. Generar dataset sintético para pruebas locales o CI sin archivos crudos
 python -m brecha_educativa --synth --schools 200
 ```
 

@@ -7,7 +7,7 @@ from __future__ import annotations
 import argparse
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
 import pandas as pd
 
 from brecha_educativa.config import CONSOLIDATED_FILE, PROCESSED_DIR, FIGURES_DIR
@@ -15,6 +15,7 @@ from brecha_educativa.pipeline import run_full_educational_pipeline
 from brecha_educativa.processor import process_raw_data, generate_synthetic_educational_dataset
 from brecha_educativa.spatial import plot_schools_map
 from brecha_educativa.report import generate_educational_report
+from brecha_educativa.longitudinal import run_longitudinal_pipeline, plot_longitudinal_comparative
 
 
 def configure_console_output() -> None:
@@ -30,7 +31,7 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     parser = argparse.ArgumentParser(
         prog="brecha_educativa",
-        description="Pipeline Econométrico y Espacial de Análisis de Brecha Educativa (Santiago RM)",
+        description="Pipeline Econométrico, Espacial y Longitudinal de Brecha Educativa (Santiago RM)",
     )
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--pipeline", action="store_true", help="Ejecutar el pipeline integral de análisis")
@@ -38,8 +39,11 @@ def main(argv: Optional[list[str]] = None) -> int:
     group.add_argument("--map", action="store_true", help="Generar mapa geoespacial de distribución de colegios")
     group.add_argument("--report", action="store_true", help="Generar reporte ejecutivo de hallazgos")
     group.add_argument("--synth", action="store_true", help="Generar dataset sintético para pruebas locales")
+    group.add_argument("--longitudinal", action="store_true", help="Ejecutar análisis comparativo longitudinal multianual")
 
     parser.add_argument("--schools", type=int, default=150, help="Cantidad de colegios sintéticos")
+    parser.add_argument("--years", type=str, default="2022,2023,2024,2025", help="Años a comparar separados por coma (ej: 2018,2022,2023,2024,2025)")
+    parser.add_argument("--output", type=str, help="Ruta de archivo de salida")
 
     args = parser.parse_args(argv)
 
@@ -51,6 +55,19 @@ def main(argv: Optional[list[str]] = None) -> int:
         print(f"Dataset sintético guardado en: {out}")
         return 0
 
+    if args.longitudinal:
+        print("Ejecutando análisis longitudinal comparativo...")
+        year_list = [int(y.strip()) for y in args.years.split(",") if y.strip().isdigit()]
+        out_fig = args.output or (FIGURES_DIR / "00_evolucion_longitudinal_brecha.png")
+        summary = run_longitudinal_pipeline(years=year_list, output_figure=out_fig)
+
+        print("\n=== RESUMEN LONGITUDINAL MULTIANUAL ===")
+        print(summary.metrics_by_year.to_string(index=False))
+        print(f"\nDelta Brecha 4° Básico ({year_list[0]} -> {year_list[-1]}): {summary.gap_delta_first_to_last:+.2f} pts")
+        print(f"Delta Índice de Duncan: {summary.duncan_delta_first_to_last:+.4f}")
+        print(f"Gráfico longitudinal generado en: {out_fig}")
+        return 0
+
     if args.process:
         process_raw_data()
         return 0
@@ -59,7 +76,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         if not CONSOLIDATED_FILE.is_file():
             process_raw_data()
         df = pd.read_csv(CONSOLIDATED_FILE)
-        out = FIGURES_DIR / "mapa_colegios_santiago.png"
+        out = args.output or (FIGURES_DIR / "mapa_colegios_santiago.png")
         plot_schools_map(df, output_path=out)
         return 0
 

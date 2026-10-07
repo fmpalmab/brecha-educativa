@@ -5,7 +5,8 @@ Generación de gráficos científicos, infografías y visualizaciones de impacto
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Optional, Union
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd

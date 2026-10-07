@@ -19,5 +19,12 @@ from brecha_educativa.spatial import load_communes_geodataframe, plot_schools_ma
 from brecha_educativa.visualizer import plot_correlation_heatmap, plot_fee_distribution
 from brecha_educativa.report import generate_educational_report
 from brecha_educativa.pipeline import run_full_educational_pipeline
+from brecha_educativa.longitudinal import (
+    generate_longitudinal_dataset,
+    compute_longitudinal_metrics,
+    plot_longitudinal_comparative,
+    run_longitudinal_pipeline,
+    LongitudinalSummary,
+)
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"

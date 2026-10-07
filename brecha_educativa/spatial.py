@@ -6,8 +6,9 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import Optional, Union, List
 import pandas as pd
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from shapely.geometry import box
 
